@@ -21,15 +21,18 @@ jobs:
           path: ./checkout-assets
           key: ${{ runner.os }}-${{ hashFiles('./checkout-assets') }}
 
+      - name: Checkout
+        if: steps.cache.outputs.cache-hit != 'true'
+        uses: actions/checkout@v3
+
       - name: Setup Dart SDK
         if: steps.cache.outputs.cache-hit != 'true'
         uses: dart-lang/setup-dart@v1
         with:
           sdk: beta
 
-      - name: Checkout
-        if: steps.cache.outputs.cache-hit != 'true'
-        uses: actions/checkout@v3
+      - name: Install dependencies
+        run: dart pub get
 
       - name: Compile
         if: steps.cache.outputs.cache-hit != 'true'
