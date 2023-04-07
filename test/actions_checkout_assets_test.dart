@@ -1,16 +1,19 @@
+import 'dart:io';
+
 import 'package:actions_checkout_assets/actions_checkout_assets.dart';
 import 'package:test/test.dart';
 
 void main() {
-  group('A group of tests', () {
-    final checkout = ActionsCheckoutAssets();
+  group('Checkout Assets', () {
+    setUp(() {});
 
-    setUp(() {
-      // Additional setup goes here.
-    });
+    final action = ActionsCheckoutAssets(
+      apiKey: Platform.environment['BINANCE_API_KEY'],
+      apiSecret: Platform.environment['BINANCE_API_SECRET'],
+    );
 
-    test('First Test', () {
-      expect(checkout, isTrue);
+    test('Wallet', () {
+      expect(action.fetch(), isA<void>());
     });
   });
 }
