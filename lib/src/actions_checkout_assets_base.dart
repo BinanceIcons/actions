@@ -23,7 +23,7 @@ class ActionsCheckoutAssets {
         print(asset.toJson());
       }
     } on BinanceApiBaseException catch (e) {
-      print(e);
+      print([e]);
     }
   }
 }
