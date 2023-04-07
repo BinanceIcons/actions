@@ -27,4 +27,7 @@ jobs:
         run: dart pub get
 
       - name: Run tests
+        env:
+          BINANCE_API_KEY: ${{ secrets.BINANCE_API_KEY }}
+          BINANCE_API_SECRET: ${{ secrets.BINANCE_API_SECRET }}
         run: dart run test
