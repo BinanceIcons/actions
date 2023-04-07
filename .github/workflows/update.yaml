@@ -1,6 +1,12 @@
 name: Update
 
 on:
+  push:
+    branches:
+      - "checkout-assets"
+    paths-ignore:
+      - ".github/workflows/*"
+
   workflow_dispatch:
 
 jobs:
@@ -39,4 +45,4 @@ jobs:
 
       - name: Run
         run: |
-          ./checkout-assets
+          ./checkout-assets -k ${{ secrets.BINANCE_API_KEY }} -s ${{ secrets.BINANCE_API_SECRET }}

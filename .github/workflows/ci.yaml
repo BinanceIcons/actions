@@ -1,10 +1,9 @@
 name: CI
 
 on:
-  workflow_dispatch:
   push:
-    branches:
-      - checkout-assets
+    branches: ["checkout-assets"]
+  workflow_dispatch:
 
 permissions:
   contents: read
