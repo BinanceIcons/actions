@@ -1,0 +1,30 @@
+name: CI
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - "checkout-assets"
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: CI
+    runs-on: self-hosted
+    timeout-minutes: 5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Dart SDK
+        uses: dart-lang/setup-dart@v1
+        with:
+          sdk: beta
+
+      - name: Install dependencies
+        run: dart pub get
+
+      - name: Run tests
+        run: dart run test

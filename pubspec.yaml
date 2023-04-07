@@ -1,0 +1,20 @@
+name: actions_checkout_assets
+description: Checkout Assets Action.
+version: 1.0.0
+repository: https://github.com/BinanceIcons/actions#checkout-assets
+publish_to: none
+
+environment:
+  sdk: ">=3.0.0-290.3.beta <4.0.0"
+
+# Add regular dependencies here.
+dependencies:
+  args: ^2.4.0
+  binance_api:
+    git:
+      url: https://github.com/VadimMalykhin/binance-api.dart
+      ref: 5e0df3acc97618bbb62292e4ed17df81fdcf4ae3
+
+dev_dependencies:
+  lints: ^2.0.1
+  test: ^1.24.1
