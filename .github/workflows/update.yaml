@@ -22,6 +22,9 @@ jobs:
           path: ./checkout-assets
           key: ${{ runner.os }}-${{ hashFiles('./checkout-assets') }}
 
+      - name: Cache Json
+        run: ${{ toJson(steps.cache) }}
+
       - name: Checkout
         if: steps.cache.outputs.cache-hit != 'true'
         uses: actions/checkout@v3
