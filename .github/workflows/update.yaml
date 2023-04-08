@@ -23,30 +23,30 @@ jobs:
           key: ${{ runner.os }}-${{ hashFiles('./checkout-assets') }}
 
       - name: Cache Json
-        run: ${{ toJson(steps.cache) }}
+        run: echo "${{ toJson(steps.cache) }}"
 
       - name: Checkout
-        if: steps.cache.outputs.cache-hit != 'true'
+        if: steps.cache.outputs.cache-hit == 'false'
         uses: actions/checkout@v3
 
       - name: Setup Dart SDK
-        if: steps.cache.outputs.cache-hit != 'true'
+        if: steps.cache.outputs.cache-hit == 'false'
         uses: dart-lang/setup-dart@v1
         with:
           sdk: beta
 
       - name: Install dependencies
-        if: steps.cache.outputs.cache-hit != 'true'
+        if: steps.cache.outputs.cache-hit == 'false'
         run: dart pub get
 
       - name: Compile
-        if: steps.cache.outputs.cache-hit != 'true'
+        if: steps.cache.outputs.cache-hit == 'false'
         run: |
           dart compile exe bin/checkout_assets.dart -o ./checkout-assets
           chmod +x ./checkout-assets
 
       - name: Save Cache
-        if: steps.cache.outputs.cache-hit != 'true'
+        if: steps.cache.outputs.cache-hit == 'false'
         uses: actions/cache/save@v3
         with:
           path: ./checkout-assets
