@@ -33,6 +33,7 @@ jobs:
           sdk: beta
 
       - name: Install dependencies
+        if: steps.cache.outputs.cache-hit != 'true'
         run: dart pub get
 
       - name: Compile
