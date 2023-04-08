@@ -13,6 +13,7 @@ jobs:
   update:
     name: Update
     runs-on: self-hosted
+    timeout-minutes: 5
     steps:
       - name: Restore Cache
         uses: actions/cache/restore@v3
@@ -38,6 +39,7 @@ jobs:
         if: steps.cache.outputs.cache-hit != 'true'
         run: |
           dart compile exe bin/checkout_assets.dart -o ./checkout-assets
+          chmod +x ./checkout-assets
 
       - name: Save Cache
         if: steps.cache.outputs.cache-hit != 'true'
@@ -45,6 +47,10 @@ jobs:
         with:
           path: ./checkout-assets
           key: ${{ runner.os }}-${{ hashFiles('./checkout-assets') }}
+
+      - name: List files and directories
+        shell: bash
+        run: ls
 
       - name: Run
         run: |

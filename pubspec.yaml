@@ -14,6 +14,7 @@ dependencies:
     git:
       url: https://github.com/VadimMalykhin/binance-api.dart
       ref: 5e0df3acc97618bbb62292e4ed17df81fdcf4ae3
+  dio: ^5.1.1
 
 dev_dependencies:
   lints: ^2.0.1
