@@ -19,7 +19,7 @@ jobs:
         uses: actions/cache/restore@v3
         id: cache
         with:
-          path: build/checkout-assets
+          path: build
           key: ${{ runner.os }}-${{ hashFiles('build/checkout-assets') }}
 
       - name: cache-hit
