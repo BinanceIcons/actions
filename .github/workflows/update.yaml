@@ -26,28 +26,28 @@ jobs:
         run: echo "${{ steps.cache.outputs.cache-hit }}"
 
       - name: Checkout
-        if: steps.cache.outputs.cache-hit == 'false'
+        if: steps.cache.outputs.cache-hit != 'true'
         uses: actions/checkout@v3
 
       - name: Setup Dart SDK
-        if: steps.cache.outputs.cache-hit == 'false'
+        if: steps.cache.outputs.cache-hit != 'true'
         uses: dart-lang/setup-dart@v1
         with:
           sdk: beta
 
       - name: Install dependencies
-        if: steps.cache.outputs.cache-hit == 'false'
+        if: steps.cache.outputs.cache-hit != 'true'
         run: dart pub get
 
       - name: Compile
-        if: steps.cache.outputs.cache-hit == 'false'
+        if: steps.cache.outputs.cache-hit != 'true'
         run: |
           mkdir build
           dart compile exe bin/checkout_assets.dart -o build/checkout-assets
           chmod +x build/checkout-assets
 
       - name: Save Cache
-        if: steps.cache.outputs.cache-hit == 'false'
+        if: steps.cache.outputs.cache-hit != 'true'
         uses: actions/cache/save@v3
         with:
           path: build
