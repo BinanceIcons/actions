@@ -10,8 +10,8 @@ on:
   workflow_dispatch:
 
 jobs:
-  update:
-    name: Update
+  run:
+    name: run
     runs-on: self-hosted
     timeout-minutes: 5
     steps:
@@ -19,11 +19,11 @@ jobs:
         uses: actions/cache/restore@v3
         id: cache
         with:
-          path: ./checkout-assets
-          key: ${{ runner.os }}-${{ hashFiles('./checkout-assets') }}
+          path: build/checkout-assets
+          key: ${{ runner.os }}-${{ hashFiles('build/checkout-assets') }}
 
-      - name: Cache Json
-        run: echo "${{ toJson(steps.cache) }}"
+      - name: cache-hit
+        run: echo "${{ steps.cache.outputs.cache-hit }}"
 
       - name: Checkout
         if: steps.cache.outputs.cache-hit == 'false'
@@ -42,15 +42,16 @@ jobs:
       - name: Compile
         if: steps.cache.outputs.cache-hit == 'false'
         run: |
-          dart compile exe bin/checkout_assets.dart -o ./checkout-assets
-          chmod +x ./checkout-assets
+          mkdir build
+          dart compile exe bin/checkout_assets.dart -o build/checkout-assets
+          chmod +x build/checkout-assets
 
       - name: Save Cache
         if: steps.cache.outputs.cache-hit == 'false'
         uses: actions/cache/save@v3
         with:
-          path: ./checkout-assets
-          key: ${{ runner.os }}-${{ hashFiles('./checkout-assets') }}
+          path: build
+          key: ${{ runner.os }}-${{ hashFiles('build/checkout-assets') }}
 
       - name: List files and directories
         shell: bash
@@ -58,4 +59,4 @@ jobs:
 
       - name: Run
         run: |
-          ./checkout-assets -k ${{ secrets.BINANCE_API_KEY }} -s ${{ secrets.BINANCE_API_SECRET }}
+          build/checkout-assets -k ${{ secrets.BINANCE_API_KEY }} -s ${{ secrets.BINANCE_API_SECRET }}
