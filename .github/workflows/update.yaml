@@ -19,35 +19,35 @@ jobs:
         uses: actions/cache/restore@v3
         id: cache
         with:
-          path: build
+          path: build/checkout-assets
           key: ${{ runner.os }}-${{ hashFiles('build/checkout-assets') }}
 
       - name: cache-hit
         run: echo "${{ steps.cache.outputs.cache-hit }}"
 
       - name: Checkout
-        if: steps.cache.outputs.cache-hit != 'true'
+        if: steps.cache.outputs.cache-hit == ''
         uses: actions/checkout@v3
 
       - name: Setup Dart SDK
-        if: steps.cache.outputs.cache-hit != 'true'
+        if: steps.cache.outputs.cache-hit == ''
         uses: dart-lang/setup-dart@v1
         with:
           sdk: beta
 
       - name: Install dependencies
-        if: steps.cache.outputs.cache-hit != 'true'
+        if: steps.cache.outputs.cache-hit == ''
         run: dart pub get
 
       - name: Compile
-        if: steps.cache.outputs.cache-hit != 'true'
+        if: steps.cache.outputs.cache-hit == ''
         run: |
           mkdir build
           dart compile exe bin/checkout_assets.dart -o build/checkout-assets
           chmod +x build/checkout-assets
 
       - name: Save Cache
-        if: steps.cache.outputs.cache-hit != 'true'
+        if: steps.cache.outputs.cache-hit == ''
         uses: actions/cache/save@v3
         with:
           path: build
